@@ -1,8 +1,11 @@
 {
   "name": "moq",
   "version": "0.1.0",
-  "description": "",
+  "description": "a CLI tool for daily life.",
   "main": "index.js",
+  "bin": {
+    "moq": "index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,5 +21,10 @@
   "bugs": {
     "url": "https://github.com/yiyungent/moq/issues"
   },
-  "homepage": "https://github.com/yiyungent/moq#readme"
+  "homepage": "https://github.com/yiyungent/moq#readme",
+  "dependencies": {
+    "commander": "^7.0.0",
+    "inquirer": "^7.3.3",
+    "js-yaml": "^4.0.0"
+  }
 }
