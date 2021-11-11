@@ -92,8 +92,8 @@ let mapDir = function mapDir(dir, callback, finish) {
           return;
         }
         if (stats.isDirectory()) {
-          // 不递归文件夹
-          //mapDir(pathname, callback, finish)
+          // 递归文件夹
+          mapDir(pathname, callback, finish)
         } else if (stats.isFile()) {
           if ([".md"].includes(path.extname(pathname))) {
             // 只要 .md 文件
@@ -125,4 +125,38 @@ let getFileNameWithoutExt = function (filename) {
   return filename;
 };
 
-module.exports = { copy, exists, deleteFile, mapDir, getFileNameWithoutExt };
+let replaceAll = function (find, replace, str) {
+  var find = find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
+// var fs = require("fs");  
+// var path = require("path");  
+
+// 递归创建目录 异步方法  
+function mkdirs(dirname, callback) {  
+  fs.exists(dirname, function (exists) {  
+      if (exists) {  
+          callback();  
+      } else {  
+          // console.log(path.dirname(dirname));  
+          mkdirs(path.dirname(dirname), function () {  
+              fs.mkdir(dirname, callback);  
+              console.log('在' + path.dirname(dirname) + '目录创建好' + dirname  +'目录');
+          });  
+      }  
+  });  
+}  
+// 递归创建目录 同步方法
+function mkdirsSync(dirname) {
+  if (fs.existsSync(dirname)) {
+    return true;
+  } else {
+    if (mkdirsSync(path.dirname(dirname))) {
+      fs.mkdirSync(dirname);
+      return true;
+    }
+  }
+}
+
+module.exports = { copy, exists, deleteFile, mapDir, getFileNameWithoutExt, replaceAll, mkdirsSync };

@@ -32,10 +32,24 @@ program
         if (doc.public) {
           publicNum++;
           // 2. 复制公开文章文件及对应媒体文件夹 到 <blogRoot>/source/_posts
-          let temp = `${blogRoot}/source/_posts/${filename}`;
+          // 2.1 复制 md
+          let temp = pathname.replace("source\\_posts\\", "").replace("source/_posts/", "");
+          temp = tools.replaceAll("\\", "/", temp);
+          temp = `${blogRoot}/source/_posts/${temp}`;
+          console.log(`pathname: ${pathname} temp: ${temp}`);
+          let mdFolderPath = temp.replace(`${tools.getFileNameWithoutExt(filename)}.md`, "");
+          console.log(mdFolderPath);
+          let mdFolderPathExists = fs.existsSync(mdFolderPath);
+          // console.log(mdFolderPathExists);
+          if (!mdFolderPathExists) {
+            //fs.mkdirSync(mdFolderPath);
+            tools.mkdirsSync(mdFolderPath);
+          }
           fs.copyFileSync(pathname, temp);
+          // 2.1 复制 md 对应的图片文件夹
           const src = tools.getFileNameWithoutExt(pathname);
           const dst = tools.getFileNameWithoutExt(temp);
+          console.log(`src: ${src} dst: ${dst}`);
           if(fs.existsSync(src)) {
             tools.exists(
               src,
