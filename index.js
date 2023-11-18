@@ -9,7 +9,7 @@ const tools = require("./tools");
 program
   .command("hexop <noteRoot> <blogRoot>")
   .description(
-    "将 Hexo笔记中 标记为public的文章(source/_posts) 复制到 Hexo Blog 中，以供发布"
+    "将 Hexo 笔记中 标记为 public 的文章 (source/_posts) 复制到 Hexo Blog 中以供发布"
   )
   .action((noteRoot, blogRoot) => {
     // 1. 先清空 <blogRoot>/source/_posts, 注意：_posts 文件夹也会被删除
@@ -18,7 +18,7 @@ program
     fs.mkdirSync(`${blogRoot}/source/_posts`);
     // 提取 markdown 中的 front-matter
     let re = /---(.*?)---/s;
-    const defaultPublic = true;
+    const defaultPublic = false;
     let publicNum = 0;
     let totalNum = 0;
     tools.mapDir(
